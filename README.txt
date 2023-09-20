@@ -6,7 +6,7 @@ Team Members:
 	4. Colette Atupulazi - lai125
 	5. Parker Willis - jhb504
 
-GitHub Link: https://github.com/ColetteAtupulazi/Data-Dynasty
+Original GitHub Link: https://github.com/ColetteAtupulazi/Data-Dynasty
 Project Deliverables:
 	1. Source Code: Data-Dynasty/Database, Project, & Project-WebPages
 	2. User's Guide: Data-Dynasty/UsersGuide.pdf
