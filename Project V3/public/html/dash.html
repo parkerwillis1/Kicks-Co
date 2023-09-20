@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/dash.css">
+        <title>Data Dynasty | Dashboard</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="parent">
+                <h1>
+                    DASHBOARD
+                </h1>
+                <button onclick="location.href='/inventory'" class="navButt" id="inventory">
+                    INVENTORY
+                </button>
+                <button onclick="alert('TBD')" class="navButt" id="order">
+                    ORDER
+                </button>
+            </div>
+            <div class="parent novw">
+                <button onclick="location.href='/'" class="loButt" id="logout">
+                    LOGOUT
+                </button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="subcon">
+                <div class="tile" id="unitSold">
+                    <h2>UNITS SOLD</h2>
+                </div>
+                <div class="tile" id="shoesInStock">
+                    <h2>SHOES IN STOCK</h2>
+                    <p id="shoesInStockCount" style="font-size: 2em"></p>
+                </div>
+                <div class="tile" id="mostRecentOrder">
+                    <h2>MOST RECENT ORDER</h2>
+                </div>
+            </div>
+            <div class="subcon">
+                <div class="tile" id="totalRevenue">
+                    <h2>TOTAL REVENUE</h2>
+                </div>
+                <div class="tile" id="activePromo">
+                    <h2>ACTIVE PROMO</h2>
+                </div>
+                <div class="tile" id="activeOrders">
+                    <h2>ACTIVE ORDERS</h2>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function() {
+                fetch('/api/shoesInStock')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('shoesInStockCount').textContent = data.total;
+                    });
+            };
+        </script>
+    </body>
+</html>

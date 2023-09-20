@@ -1,0 +1,172 @@
+body {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    justify-content: flex-start;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: linear-gradient(180deg, rgba(150,150,150,1) 0%, rgba(200,200,200,1) 50%);
+}
+
+.parent {
+    text-align: center;
+    margin-top: 15vh;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 3px solid #bbbbbb;
+    border-radius: 10px;
+    background-color: #fafafa;
+    box-shadow: 0px 5px 25px #646464;
+}
+
+.container {
+    color: #646464;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    background-color: #eeeeee;
+}
+
+h1 {
+    color: #555555;
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+h3 {
+    margin: 0;
+    margin-bottom: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 150%;
+}
+
+h5 {
+    color: #dc0000;
+    margin: 0;
+}
+
+p {
+    color: #555555;
+    margin-top: 30px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.userInput {
+    margin-bottom: 10px;
+}
+
+.inputErr {
+    border-color: red;
+    margin-bottom: 10px;
+}
+
+button {
+    color: white;
+    width: 175px;
+    border: 2px solid #6a9659;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #6a9659;
+    cursor: pointer;
+    transition: opacity 0.15s;
+}
+
+.reg {
+    background-color: #509fe0;
+    border-color: #509fe0;
+}
+
+button:hover {
+    opacity: 0.75;
+}
+
+button:active {
+    opacity: 1;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding-top: 48px;
+    padding-bottom: 57px;
+    background-color: #555555;
+}
+
+.gitLink {
+    text-decoration: none;
+}
+
+svg {
+    height: 30px;
+    width: 30px;
+    fill: #cccccc;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: fill 0.15s;
+}
+
+.gitLink svg:hover {
+    fill: #ffffff;
+    filter: drop-shadow( 0px 3px 10px rgba(255, 255, 255, 1));
+}
+
+span {
+    color: #cccccc;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.col1 {
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.col2 {
+    margin-right: 30px;
+    margin-left: 30px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 150px;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #808080;
+    text-align: left!important;
+}
+
+.tname {
+    color: #cccccc;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: none;
+    margin-top: 0;
+    transition: color 0.5s;
+}
+
+.tname:hover {
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

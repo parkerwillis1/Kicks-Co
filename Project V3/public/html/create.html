@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Item</title>
+    <link rel="stylesheet" type="text/css" href="/css/inventory.css">
+</head>
+<body>
+    <h1>Create an Item</h1>
+
+    <form id="create-form">
+        <input type="text" name="inv_ID" placeholder="Inventory ID">
+        <input type="text" name="SaleStatus" placeholder="Sale Status">
+        <input type="number" name="Quantity" placeholder="Quantity">
+        <input type="text" name="Shoes_shoes_ID" placeholder="Shoe ID">
+
+        <input type="submit" value="Create Item">
+    </form>
+
+    <button onclick="window.location.href='/inventory'">Back</button>
+
+    <script>
+        const form = document.querySelector('#create-form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            const item = Object.fromEntries(formData.entries());
+
+            fetch('/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item)
+            }).then(response => response.json())
+              .then(data => alert(data.message));
+        });
+    </script>
+</body>
+</html>

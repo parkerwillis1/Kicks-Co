@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Modify Item</title>
+    <link rel="stylesheet" type="text/css" href="/css/inventory.css">
+</head>
+<body>
+    <h1>Modify an Item</h1>
+
+    <form id="modify-form">
+        <!-- Assuming that an item can be identified by 'id', and consists of 'name' and 'quantity' -->
+        <input type="text" name="id" placeholder="Item ID">
+        <input type="text" name="name" placeholder="New Item name">
+        <input type="number" name="quantity" placeholder="New Quantity">
+
+        <input type="submit" value="Modify Item">
+    </form>
+
+    <button onclick="window.location.href='/inventory'">Back</button>
+
+    <script>
+        const form = document.querySelector('#modify-form');
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            const item = Object.fromEntries(formData.entries());
+
+            fetch(`/modify/${item.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(item)
+            });
+        });
+    </script>
+</body>
+</html>

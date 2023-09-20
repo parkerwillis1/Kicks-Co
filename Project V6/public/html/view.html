@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Items</title>
+    <link rel="stylesheet" type="text/css" href="/css/inventory.css">
+</head>
+<body>
+    <h1>View Items</h1>
+
+    <div id="inventory">
+        <!-- Items will be populated here -->
+    </div>
+
+    <button onclick="window.location.href='/inventory'">Back</button>
+
+    <script>
+        function displayItems(items) {
+            const inventory = document.querySelector('#inventory');
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.textContent = `ID: ${item.inv_ID}, Sale Status: ${item.SaleStatus}, Quantity: ${item.Quantity}, Shoes ID: ${item.Shoes_shoes_ID}`;
+                inventory.appendChild(itemDiv);
+            });
+        }
+
+        window.onload = function() {
+            fetch('/api/inventory')
+                .then(response => response.json())
+                .then(data => {
+                    displayItems(data);
+                });
+        };
+    </script>
+</body>
+</html>

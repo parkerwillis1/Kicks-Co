@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/inventory.css">
+    <title>Shoe Store Inventory</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Shoe Store Inventory</h1>
+        <form id="shoe-form">
+            <label for="shoeName">New Shoe:</label>
+            <input type="text" id="shoeName">
+            <button type="submit">Add</button>
+        </form>
+        <table id="inventory-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <body>
+                <div class="container">
+                  <form id="productForm">
+                    <input type="text" id="productName" placeholder="Product name">
+                    <input type="submit" value="Create">
+                  </form>
+                  
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Inventory</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Nike Air Max 2023</td>
+                        <td>120</td>
+                        <td>$200</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Adidas Ultraboost 23</td>
+                        <td>75</td>
+                        <td>$180</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Puma Ignite</td>
+                        <td>50</td>
+                        <td>$90</td>
+                      </tr>
+                      <!-- Add more rows as you have more products -->
+                    </tbody>
+                  </table>
+                </div>
+              </body>              
+        </table>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

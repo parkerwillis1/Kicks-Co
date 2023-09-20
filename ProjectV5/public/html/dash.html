@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/dash.css">
+        <title>Data Dynasty | Dashboard</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="parent">
+                <h1>
+                    DASHBOARD
+                </h1>
+                <button onclick="location.href='/inventory'" class="navButt" id="inventory">
+                    INVENTORY
+                </button>
+                <button onclick="window.location.href='/orders'" class="navButt" id="order">
+                    ORDERS
+                </button>
+                <button class="navButt" id="discount">
+                    DISCOUNT
+                </button>
+            </div>
+            <div class="parent novw">
+                <button onclick="location.href='/'" class="loButt" id="logout">
+                    LOGOUT
+                </button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="modal" id="discModal">
+                <div class="modal-content center">
+                    <input type="text" class="dCode" placeholder="Code" required id="u_code"><br>
+                    <input type="number" min="1" max="99" class="dCode" placeholder="Percentage" required id="u_perc"><br>
+                    <button class="createDisc" id="create" type="submit">
+                        CREATE
+                    </button>
+                </div>
+            </div>
+            <div class="subcon">
+                <div class="tile" id="unitSold">
+                    <h2>UNITS SOLD</h2>
+                    <p id="soldDisplay" style="font-size: 2em"></p>
+                </div>
+                <div class="tile" id="shoesInStock">
+                    <h2>SHOES IN STOCK</h2>
+                    <p id="shoesInStockCount" style="font-size: 2em"></p>
+                </div>
+                <div class="tile" id="mostRecentOrder">
+                    <h2>MOST RECENT ORDER</h2>
+                    <p id="recentDisplay" style="font-size: 2em"></p>
+                </div>
+            </div>
+            <div class="subcon">
+                <div class="tile" id="totalRevenue">
+                    <h2>TOTAL REVENUE</h2>
+                    <p id="revDisplay" style="font-size: 2em"></p>
+                </div>
+                <div class="tile" id="activePromo">
+                    <h2>ACTIVE PROMO</h2>
+                    <p id="promoDisplay" style="font-size: 2em"></p>
+                </div>
+                <div class="tile" id="activeOrders">
+                    <h2>ACTIVE ORDERS</h2>
+                    <div class="ao_Tile">
+                        <table id="ao_Table">
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            window.onload = function loadTiles() {
+                fetch('/api/totalRevenue')
+                    .then(response => response.json())
+                    .then(data => {
+                        const totalUSD = new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        }).format(data.total);
+                        document.getElementById('revDisplay').textContent = totalUSD;
+                    });
+
+                fetch('/api/shoesInStock')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('shoesInStockCount').textContent = data.total;
+                    });
+
+                fetch('/api/recentOrder')
+                    .then(response => response.json())
+                    .then(data => {
+                        const totalUSD = new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                        }).format(data.TotalAmount);
+                        document.getElementById('recentDisplay').textContent = 
+                            "ID: " + data.order_ID + "- " + totalUSD;
+                    })
+
+                fetch('/api/promoDisplay')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('promoDisplay').textContent = 
+                            "CODE: " + data.Name + ' - ' + (data.Percentage * 100).toFixed(0) + "%";
+                    });
+
+                fetch('/api/ao_Table')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const activeTable = document.getElementById('ao_Table');
+
+                        let headers = `
+                            <thead>
+                                <tr>
+                                    <th width="50px">ID</th>
+                                    <th>Total</th>
+                                    <th>Customer ID</th>
+                                </tr>
+                            </thead>
+                        `;
+
+                        let rows = '<tbody>';
+                        data.forEach(order => {
+                            if (order.OrderStatus == 0) {
+                                rows += `
+                                    <tr>
+                                        <td>${order.order_ID}</td>
+                                        <td>${order.TotalAmount}</td>
+                                        <td>${order.customers_cust_ID}</td>
+                                    </tr>
+                                `;
+                            }
+                        });
+                        rows += '</tbody>'
+                        activeTable.innerHTML = headers + rows;
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error.message);
+                    });
+            };
+        </script>
+        <script>
+            var modal = document.getElementById('discModal');
+            var d_btn = document.getElementById('discount');
+            var c_btn = document.getElementById('create');
+            var code = document.getElementById('u_code');
+            var perc = document.getElementById('u_perc');
+
+            d_btn.onclick = () => {
+                modal.style.display = "block";
+            }
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            c_btn.onclick = () => {
+                if (!validateInputs()) {
+                    return;
+                }
+                const codeVal = code.value;
+                const percVal = parseFloat(perc.value / 100);
+
+                const discData = {
+                    Name: codeVal,
+                    Percentage: percVal
+                };
+                
+                fetch('/api/add_Discount', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(discData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('Error: ', error);
+                })
+                console.log(discData);
+
+                alert('Discount code created successfully!\n' +
+                            'Code     : ' + codeVal +
+                            '\nPercent  : ' + (percVal * 100));
+                
+                window.location.reload();
+            }
+
+            // Input Validation
+            function validateInputs() {
+                const codeValue = code.value.trim();
+                if (!codeValue) {
+                    alert('Code cannot be empty.');
+                    code.focus();
+                    return false;
+                }
+
+                const lettersOnlyRegex = /^[A-Za-z]+$/;
+                if (!lettersOnlyRegex.test(codeValue)) {
+                    alert('Code can only contain letters.');
+                    code.focus();
+                    return false;
+                }
+
+                if (codeValue.length > 8) {
+                    alert('Code cannot be more than 8 characters.');
+                    code.focus();
+                    return false;
+                }
+
+                code.value = codeValue.toUpperCase();
+
+                const percValue = parseFloat(perc.value);
+                if (isNaN(percValue) || percValue < 1 || percValue > 99) {
+                    alert('Percentage must be a number between 1 and 99.');
+                    perc.focus();
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </body>
+</html>

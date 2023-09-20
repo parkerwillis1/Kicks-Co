@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orders</title>
+    <link rel="stylesheet" type="text/css" href="/css/orders.css"> <!-- This is the line that adds the CSS -->
+</head>
+<body>
+    <header>
+        <h1>Orders Admin</h1>
+    </header>
+
+    <div class="sort-tray">
+        <button class="sortBtn" id="d_btn">DATE &darr;</button>
+        <button class="sortBtn" id="c_btn">CUSTOMER</button>
+        <button class="sortBtn" id="a_btn">DOLLAR AMOUNT</button>
+    </div>
+
+    <div class="container">
+        <!-- Display orders in a table format or any other format you prefer -->
+        <table id="ordersTable">
+            <!-- Table headers and rows will be dynamically added using JavaScript -->
+        </table>
+
+        <!-- Button to navigate back to dashboard -->
+        <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+    </div>
+
+    <script>
+        // Fetch orders from backend
+        fetch('/api/orders')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then(data => {
+                buildTable(data);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error.message);
+            });
+
+        // BUILD TABLE
+        function buildTable(data) {
+            // Get a reference to the table
+            const ordersTable = document.getElementById('ordersTable');
+                
+            // Create table headers
+            let headers = `
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                        <th>Total Amount</th>
+                        <th>Inventory ID</th>
+                        <th>Staff ID</th>
+                        <th>Customer ID</th>
+                        <th>Discount ID</th>
+                    </tr>
+                </thead>
+            `;
+
+            // Create table body
+            let rows = '<tbody>';
+            data.forEach(order => {
+                rows += `
+                    <tr>
+                        <td>${order.order_ID}</td>
+                        <td>${order.OrderDate}</td>
+                        <td>${order.OrderStatus}</td>
+                        <td>${order.TotalAmount}</td>
+                        <td>${order.Inventory_inv_ID}</td>
+                        <td>${order.staff_staff_ID}</td>
+                        <td>${order.customers_cust_ID}</td>
+                        <td>${order.discounts_discount_ID}</td>
+                    </tr>
+                `;
+            });
+            rows += '</tbody>';
+
+            // Append headers and rows to the table
+            ordersTable.innerHTML = headers + rows;
+        }
+
+        // SORTING
+        const date = document.getElementById('d_btn');
+        const cust = document.getElementById('c_btn');
+        const amnt = document.getElementById('a_btn');
+
+        date.onclick = () => {
+            if (date.innerText == 'DATE') {
+                date.innerHTML = 'DATE &darr;';
+                fetch('/api/date-asc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            } else if (date.innerText == 'DATE ↓') {
+                date.innerHTML = 'DATE &uarr;';
+                fetch('/api/date-desc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            } else if (date.innerText == 'DATE ↑') {
+                date.innerHTML = 'DATE &darr;';
+                fetch('/api/date-asc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            }
+            cust.innerHTML = 'CUSTOMER';
+            amnt.innerHTML = 'DOLLAR AMOUNT';
+        }
+        cust.onclick = () => {
+            if (cust.innerText == 'CUSTOMER') {
+                cust.innerHTML = 'CUSTOMER &darr;';
+                fetch('/api/cust-asc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            } else if (cust.innerText == 'CUSTOMER ↓') {
+                cust.innerHTML = 'CUSTOMER &uarr;';
+                fetch('/api/cust-desc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            } else if (cust.innerText == 'CUSTOMER ↑') {
+                cust.innerHTML = 'CUSTOMER &darr;';
+                fetch('/api/cust-asc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            }
+            date.innerHTML = 'DATE';
+            amnt.innerHTML = 'DOLLAR AMOUNT';
+        }
+        amnt.onclick = () => {
+            if (amnt.innerText == 'DOLLAR AMOUNT') {
+                amnt.innerHTML = 'DOLLAR AMOUNT &darr;';
+                fetch('/api/dollar-asc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            } else if (amnt.innerText == 'DOLLAR AMOUNT ↓') {
+                amnt.innerHTML = 'DOLLAR AMOUNT &uarr;';
+                fetch('/api/dollar-desc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            } else if (amnt.innerText == 'DOLLAR AMOUNT ↑') {
+                amnt.innerHTML = 'DOLLAR AMOUNT &darr;';
+                fetch('/api/dollar-asc')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        buildTable(data);
+                    })
+            }
+            date.innerHTML = 'DATE';
+            cust.innerHTML = 'CUSTOMER';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Items</title>
+    <link rel="stylesheet" type="text/css" href="/css/inventory.css">
+</head>
+<body>
+    <h1>View Items</h1>
+
+    <div id="inventory">
+        <!-- Items will be populated here -->
+    </div>
+
+    <button onclick="window.location.href='/inventory'">Back</button>
+
+    <script>
+        window.onload = function() {
+            fetch('/view')
+                .then(response => response.json())
+                .then(data => {
+                    const inventory = document.querySelector('#inventory');
+                    inventory.textContent = JSON.stringify(data);
+                });
+        };
+    </script>
+</body>
+</html>
